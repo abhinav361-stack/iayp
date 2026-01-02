@@ -1,18 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
-from openai import OpenAI
+from groq import Groq
 
-# Create Flask app
 app = Flask(__name__)
-
-# Enable CORS (for GitHub Pages / browser access)
 CORS(app)
 
-# OpenAI client (API key comes from Render environment variable)
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Groq client (FREE, no billing)
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-# Prompt templates
 PROMPTS = {
     "check": """You are an IAYP compliance checker.
 Return:
@@ -31,16 +27,13 @@ Plain text.
 No assessor mention."""
 }
 
-# Health check route
 @app.route("/", methods=["GET"])
 def health():
-    return "IAYP Brain API is running"
+    return "IAYP Brain API (FREE – Groq) is running"
 
-# Main chat API route
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json(force=True)
-
     mode = data.get("mode")
     text = data.get("text")
 
@@ -48,7 +41,7 @@ def chat():
         return jsonify({"error": "Invalid mode or empty text"}), 400
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="llama3-70b-8192",
         messages=[
             {"role": "system", "content": PROMPTS[mode]},
             {"role": "user", "content": text}
