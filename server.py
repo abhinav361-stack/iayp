@@ -3,7 +3,7 @@ import openai
 
 openai.api_key = "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"
 
-app = Flask(app)
+app = Flask(__name__)
 
 PROMPTS = {
   "check": """You are an IAYP compliance checker.
@@ -39,3 +39,4 @@ def chat():
     return jsonify({"result": response.choices[0].message.content})
 
 app.run()
+
