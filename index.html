@@ -30,7 +30,7 @@
 async function callGPT(mode) {
   document.getElementById("output").innerText = "Processing...";
   
-  const response = await fetch("https://YOUR-BACKEND-URL/chat", {
+  const response = await fetch("https://iayp.onrender.com/chat", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
     body: JSON.stringify({
@@ -49,3 +49,4 @@ function report(){ callGPT("report"); }
 </script>
 </body>
 </html>
+
