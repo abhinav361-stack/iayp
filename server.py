@@ -41,7 +41,8 @@ def chat():
         return jsonify({"error": "Invalid mode or empty text"}), 400
 
     response = client.chat.completions.create(
-        model="llama3-70b-8192",
+        model="llama-3.1-70b-versatile",
+
         messages=[
             {"role": "system", "content": PROMPTS[mode]},
             {"role": "user", "content": text}
@@ -51,3 +52,4 @@ def chat():
     return jsonify({
         "result": response.choices[0].message.content
     })
+
